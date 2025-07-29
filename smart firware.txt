@@ -1,0 +1,26 @@
+#define POWER_SENSOR_PIN 34  // ADC pin for power sensing
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000); // Allow time for Serial Monitor to open
+
+  analogReadResolution(12); // ESP32: set ADC resolution
+}
+
+void loop() {
+  // Read ADC value
+  int rawADC = analogRead(POWER_SENSOR_PIN);
+  float voltage = (rawADC / 4095.0) * 3.3;
+  float current = voltage / 10.0; // Simplified current estimate
+  float power = voltage * current;
+
+  // Output data in a format suitable for plotting
+  // Format: voltage current power (space-separated)
+  Serial.print(voltage, 2);
+  Serial.print(" ");
+  Serial.print(current, 2);
+  Serial.print(" ");
+  Serial.println(power, 2);
+
+  delay(200); // Short delay for smooth plotting
+}
